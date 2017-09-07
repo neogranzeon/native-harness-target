@@ -36,9 +36,8 @@ int init_jvm(JavaVM **p_vm, JNIEnv **p_env) {
   args.ignoreUnrecognized = JNI_FALSE;
 
   void *libart_dso = dlopen("libart.so", RTLD_NOW);
-  void *libandroid_runtime_dso = dlopen("libandroid_runtime.so", RTLD_NOW);
 
-  if (!libart_dso || !libandroid_runtime_dso) {
+  if (!libart_dso) {
     return -1;
   }
 
@@ -49,18 +48,8 @@ int init_jvm(JavaVM **p_vm, JNIEnv **p_env) {
     return -2;
   }
 
-  registerNatives_t registerNatives;
-  registerNatives = (registerNatives_t) dlsym(libandroid_runtime_dso, "Java_com_android_internal_util_WithFramework_registerNatives");
-  if (!registerNatives) {
-    return -3;
-  }
-
   if (JNI_CreateJavaVM(&(*p_vm), &(*p_env), &args)) {
-    return -4;
-  }
-
-  if (registerNatives(*p_env, 0)) {
-    return -5;
+    return -3;
   }
 
   return 0;

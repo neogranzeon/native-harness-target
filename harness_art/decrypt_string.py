@@ -3,7 +3,8 @@
 import socket
 
 
-HOST_IP = '127.0.0.1'
+#HOST_IP = '127.0.0.1'
+HOST_IP = '172.16.0.12'
 PORT_NO = 5001
 BUFFER_SIZE = 2048
 
